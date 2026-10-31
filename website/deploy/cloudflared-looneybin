@@ -1,0 +1,27 @@
+#!/sbin/openrc-run
+# OpenRC service for the Cloudflare Tunnel that fronts projectloonybin.com.
+# Outbound-only (no inbound ports). Install: copy to /etc/init.d/, chmod +x,
+#   rc-update add cloudflared-looneybin default && rc-service cloudflared-looneybin start
+
+name="cloudflared-looneybin"
+description="Cloudflare Tunnel — projectloonybin.com -> localhost:3003"
+supervisor="supervise-daemon"
+
+command="/home/timb/bin/cloudflared"
+command_args="tunnel --config /home/timb/.cloudflared/looneybin.yml run looneybin"
+command_user="timb:timb"
+pidfile="/run/cloudflared-looneybin.pid"
+respawn_delay=5
+respawn_max=0          # 0 = respawn forever
+output_log="/var/log/looneybin/tunnel.log"
+error_log="/var/log/looneybin/tunnel.log"
+
+depend() {
+    need net
+}
+
+# /var/log is root-owned, but supervise-daemon opens the log AS command_user
+# (timb) -> it can't create a file there and dies before exec (silent "stopped").
+start_pre() {
+    checkpath -d -m 0755 -o timb:timb /var/log/looneybin
+}

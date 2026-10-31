@@ -1,0 +1,16 @@
+disableSerialization;
+private _dialog = findDisplay 2620;
+private _members = _dialog displayCtrl 2621;
+private _sel = lbCurSel 2621;
+private _data = _members lbData _sel;
+_data = missionNamespace getVariable _data;
+private _index = [life_my_gang, randomized_life_group_list] call life_fnc_index;
+if (_index isEqualTo - 1) exitWith {};
+if (leader(group player) != player) exitWith {["You don't have the ability to do that.", "basic"] spawn life_fnc_handleMessage;};
+_gang = randomized_life_group_list select _index;
+_gang params["_name", "_group", "_locked", "_ownerID", "_password"];
+randomized_life_group_list set[_index, [_name, _group, _locked, getPlayerUID _data, _password]];
+publicVariable "randomized_life_group_list";
+_group selectLeader _data; [[_data, _group], "life_fnc_clientGroupLeader", _data, false] spawn life_fnc_MP;
+player setRank "PRIVATE";
+[] spawn life_fnc_groupManagement;

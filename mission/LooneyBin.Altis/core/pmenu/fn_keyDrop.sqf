@@ -1,0 +1,21 @@
+params[["_control", controlNull]];
+disableSerialization;
+private _display = findDisplay 2700;
+if (isNull _display) exitWith {};
+private _vehicleList = _display displayCtrl 2702;
+private _playerList = _display displayCtrl 2703;
+private _vehicleIndex = (lbCurSel _vehicleList);
+private _vehicle = life_vehicles select _vehicleIndex;
+_owners = _vehicle getVariable "plb_vehOwners";
+private _vehicleOwners = _vehicle getVariable["plb_vehOwners", []];
+if ((_vehicleOwners findIf {(getPlayerUID player) isEqualTo(_x select 0)}) isEqualTo - 1) exitWith {};
+if (((_vehicle distance impound_obj) < 50)) exitWith {if ((getPlayerUID player) isEqualTo(_vehicleOwners select 0) select 0) exitWith {
+        life_vehicles deleteAt _vehicleIndex;
+        deleteVehicle _vehicle;};
+    life_vehicles deleteAt _vehicleIndex;
+    _vehicleOwners deleteAt(_vehicleOwners findIf {(getPlayerUID player) isEqualTo(_x select 0)});
+    _vehicle setVariable["plb_vehOwners", _vehicleOwners, true];};
+life_vehicles deleteAt _vehicleIndex;
+_vehicleOwners deleteAt(_vehicleOwners findIf {(getPlayerUID player) isEqualTo(_x select 0)});
+_vehicle setVariable["plb_vehOwners", _vehicleOwners, true];
+[] spawn life_fnc_keyMenu;

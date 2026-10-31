@@ -1,0 +1,10 @@
+params[["_list", controlNull, [controlNull]], ["_selection", -1, [-1]], ["_shop", "", [""]]];
+if ((lbCurSel 38403) isEqualTo - 1) exitWith {["You need to select an item to buy/sell.", "basic"] spawn life_fnc_handleMessage;};
+private _item = _list lbData _selection;
+private _price = _list lbValue _selection;
+private _itemInfo = [_item] call life_fnc_fetchCfgDetails;
+if !(player canAdd _item) exitWith {["You don't have enough room for that item.", "basic"] spawn life_fnc_handleMessage;};
+if !([_price] call life_fnc_debitCard) exitWith {};
+[format["You bought a %1 for $%2", _itemInfo select 1, [_price] call life_fnc_numberText], "basic"] spawn life_fnc_handleMessage;
+[_item, true, false, true, false] call life_fnc_handleItem;
+PlaySound "purchase";

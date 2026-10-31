@@ -1,0 +1,24 @@
+disableSerialization;
+if (life_gang_data isEqualTo[]) then {
+    private _action = ["You are currently not in a gang. Do you wish to create one for $25,000?", "Create Gang", "Yes", "No"] call BIS_fnc_guiMessage;
+    if !(_action) exitWith {};
+    ["gangCreationMenu"] call life_fnc_createDialog;} else {["gangMenuPrimary"] call life_fnc_createDialog;
+    life_gang_data params["_gangID", "_gangName", "_rank"];
+    life_gangMembersList_ready = false;
+    life_gangMembersList = []; [[_gangID, player], "TON_fnc_getGangInfo", 2] call life_fnc_MP;
+    waitUntil {0.1;
+        (life_gangMembersList_ready)};
+    life_gangMembersList spawn life_fnc_populateGangInfo;
+    private _members = (findDisplay 9620) displayCtrl 9621;
+    lbClear _members;
+    _members lbAdd "Loading...";
+    _members lbSetData[(lbSize _members) - 1, str["loading"]];
+    ctrlSetText[9522, (format["Gang Management - %1", _gangName])];
+    ctrlEnable[9622, false];
+    ctrlEnable[9624, false];
+    ctrlEnable[9625, false];
+    ctrlEnable[9630, false];
+    ctrlEnable[1337, false];
+    ctrlEnable[9635, false];
+    ctrlEnable[9637, false];
+    ctrlEnable[9636, false];};

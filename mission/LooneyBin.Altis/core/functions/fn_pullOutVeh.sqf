@@ -1,0 +1,13 @@
+params[["_unit", objNull, [objNull]]];
+if ((playerSide isEqualTo west && !((player getVariable["plb_restrained", false]) || (player getVariable["plb_downed", false]))) || (isNull objectParent player)) exitWith {};
+if (player getVariable["plb_downed", false]) then {player setUnconscious false;};
+if (player getVariable["plb_restrained", false]) then {detach player;
+    player setVariable["plb_escorting", nil, true];
+    player setVariable["plb_transporting", nil, true];};
+player action["Eject", vehicle player];
+player action["GetOut", vehicle player];
+waitUntil {isNull objectParent player};
+if (player getVariable["plb_downed", false]) then {player setUnconscious true;
+    player setVelocity[0, 0, 0];};
+titleText["You have been pulled out of the vehicle", "PLAIN"];
+titleFadeOut 4;

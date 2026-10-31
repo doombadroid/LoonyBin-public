@@ -1,0 +1,10 @@
+if !(life_pcp_effect select 0) then {player setFatigue 1;
+    player enableFatigue false;
+    life_fatigueEnabled = false;
+    life_pcp_effect = [true, time];
+    titleText["You can now run farther for 6 minutes", "PLAIN"];
+    waitUntil {uiSleep 0.75;
+        !(alive player) || ((time - (life_pcp_effect select 1)) > (5 * 60))};
+    player enableFatigue true;
+    life_fatigueEnabled = true;
+    life_pcp_effect = [false, 0];} else {life_pcp_effect set[1, time];};

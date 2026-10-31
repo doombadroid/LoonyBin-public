@@ -1,0 +1,15 @@
+params[["_gangID", 0, [0]]];
+if (_gangID isEqualTo 0) exitWith {};
+if !(isNull(findDisplay 9620)) then {closeDialog 0};
+if ((life_gang_data select 2) isEqualTo 1) then {life_action_in_use = false;};
+["Your gang has been disbanded!", "shortwarning"] spawn life_fnc_handleMessage;
+if !(isNil {(group player) getVariable "gang_id"}) then {private _group = group player;
+    [player] joinSilent(createGroup civilian);
+    if (units _group isEqualTo[]) then {deleteGroup _group;};};
+player setVariable["gang_data", nil, true];
+deleteMarkerLocal life_gangBldgMark;
+life_gang_data = [];
+life_gangBuilding = [objNull, []];
+life_gangBldgMark = "";
+life_gang_talents = [];
+life_gang_exp = 0;

@@ -1,0 +1,14 @@
+params["_obj_main", "_stance", "_dpID"];
+if (_obj_main isKindOf "CAManBase") then {};
+_obj_main addAction["<t color='#FF0000'>Complete Delivery</t>", {[(_this select 3), (_this select 0)] spawn life_fnc_finishDPMission;
+}, _dpID, 4, false, false, "", 'life_delivery_inProg && !(playerSide isEqualTo west) && life_dp_end == _target', 5];
+_obj_main addAction["Get Delivery Mission (Small Parcel)", {[(_this select 3), 3, (_this select 0)] spawn life_fnc_getDPMission;
+}, _dpID, 3, false, false, "", '!life_delivery_inProg && playerSide isEqualTo civilian', 5];
+_obj_main addAction["Get Delivery Mission (Ground Cargo Shipment)", {[(_this select 3), 1, (_this select 0)] spawn life_fnc_getDPMission;
+}, _dpID, 3, false, false, "", '!life_delivery_inProg && playerSide isEqualTo civilian', 5];
+_obj_main addAction["Get Delivery Mission (Air Cargo Shipment)", {[(_this select 3), 2, (_this select 0)] spawn life_fnc_getDPMission;
+}, _dpID, 3, false, false, "", '!life_delivery_inProg && playerSide isEqualTo civilian', 5];
+_obj_main addAction["Get Delivery Mission (Organ Transport)", {[(_this select 3), 4, (_this select 0)] spawn life_fnc_getDPMission;
+}, _dpID, 3, false, false, "", '!life_delivery_inProg && playerSide isEqualTo independent', 5];
+_obj_main addAction["Gas Station", life_fnc_weaponShopMenu, "delivery", 1.5, false, false, "", 'playerSide isEqualTo civilian && 126 in life_side_talents', 5];
+_obj_main addAction["Delivery Market", life_fnc_virtualShopMenu, "delivery", 1.5, false, false, "", 'playerSide isEqualTo civilian && 126 in life_side_talents', 5];

@@ -1,0 +1,11 @@
+if (isNull life_holding_barrel) exitWith {};
+params[["_vendor", objNull, [objNull]]];
+if (isNull _vendor || (player distance _vendor > 6)) exitWith {};
+if ((life_maxWeight - life_carryWeight) < 20) exitWith {systemChat "You don't have enough room for this."};
+detach life_holding_barrel;
+deleteVehicle life_holding_barrel;
+private _amount = 20;
+[true, "oilb", _amount] call life_fnc_handleInv;
+life_holding_barrel = objNull;
+player forceWalk false;
+[_vendor, true, true, "oil"] spawn life_fnc_processAction;

@@ -1,0 +1,53 @@
+#include "version.hpp"
+author="Gaming-LoonyBin";onLoadName=PLB_ONLOAD_NAME;onLoadMission=PLB_ONLOAD_MISSION;loadScreen="images\splash.jpg";joinUnassigned=1;disabledAI=1;enableDebugConsole[]={"76561190000000001"};scriptedPlayer=1;unsafeCVL=1;respawn=BASE;respawnDelay=0;respawnButton=0;respawnDialog=0;class Header{gameType=RPG;minPlayers=1;maxPlayers=150;};wreckManagerMode=0;wreckLimit=3;wreckRemovalMinTime=60;wreckRemovalMaxTime=320;corpseManagerMode=2;corpseLimit=120;corpseRemovalMinTime=1860;corpseRemovalMaxTime=1920;
+
+disableChannels[]={ // {channelID<number>, disableChat<bool>, disableVoice<bool>}
+	{0,true,true}, //Global
+	{1,true,true}, //Side
+	{2,true,true}, //Command
+	{3,false,false}, //Group
+	{4,false,false}, //Vehicle
+	{5,false,false}, //Direct
+	{6,false,true} //CustomSide
+};
+
+showHUD[] = {true,	// Scripted HUD (same as showHUD command)
+	true,	// Vehicle + soldier info
+	false,	// Vehicle radar [HIDDEN]
+	false,	// Vehicle compass [HIDDEN]
+	false,	// Tank direction indicator
+	false,	// Commanding menu
+	true,	// Group Bar
+	true,	// HUD Weapon Cursors
+	true	// HUD Squad Radar
+};
+#include"dialog\MasterHandler.h"
+#include"outlw_magRepack\MagRepack_Config.hpp"
+#include"Config_physWeights.hpp"
+#include"core\chatcom\cfgresources.hpp"
+#include"core\radio\radioCfg.hpp"
+class RscTitles{
+#include"dialog\radioHUD.hpp"
+#include"dialog\ui.hpp"
+#include"dialog\gangFortHUD.hpp"
+#include"dialog\progress.hpp"
+#include"dialog\message_hud.hpp"
+#include"dialog\chat_hud.hpp"
+#include"dialog\loadingBackground.hpp"
+#include"dialog\toastHUD.hpp"
+#include"dialog\paroleHUD.hpp"
+#include"dialog\gpsHUD.hpp"
+};class CfgFunctions{
+#include"Functions.h"
+};class CfgRemoteExec{
+#include"CfgRE.hpp"
+};class CfgDisabledCommands{
+#include"CfgDisabledCommands.hpp"
+};class CfgSounds{sounds[]={};
+#include"CfgSounds.hpp"
+};class CfgMusic{tracks[]={};
+#include"core\radio\radioMusic.hpp"
+};class CfgDebriefing{class NotWhitelisted{title="Mission Failed";subtitle="You are not white-listed to use this slot";description="You are not allowed to use this slot because you do not have the appropriate permissions, try another slot.";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class RASlot{title="Mission Failed";subtitle="You are not approved to use this slot!";description="You are not approved to use this slot. This slot is for Cadets requiring a ride-along only!";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class SGTSlot{title="Mission Failed";subtitle="You are not of proper rank to use this slot!";description="You are not approved to use this slot. This slot is for reserved for commanding officers the APD.";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class Blacklisted{title="Mission Failed";subtitle="You are blacklisted from cops";description="You are not allowed to be a cop due to previous actions and the admins have removed you from being a cop.";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class TooManyCops{title="Too Few Civilians";subtitle="Cop to Civ Ratio is off!";description="There needs to be more civilians online before we can allow more cops to play at once. This is temporary in order to maintain proper balance on our servers.";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class wrongWorld{title="Wrong World Loaded";subtitle="Please restart your game or rejoin the server.";description="Your game has loaded a map that is not Altis. Please restart your game and rejoin the server. Arma is being Arma...";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class SpyGlass{title="The SpyGlass sees you";subTitle="You were detected by the SpyGlass";description="You were detected for cheating and have been reported to the server. Enjoy your day.";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class MemHackCash{title="Mission Failed";subtitle="Money failed validation";description="You have been detected with hacked money or hacked items. Visit our Discord for support";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class AFKdetected{title="AFK DETECTED";subtitle="AFK DETECTED";description="You have been detected and kicked for being afk";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};class nullUnit{title="Error: No unit";subtitle="Please restart your game or rejoin the server.";description="Your unit was detected as null. Please restart your game and rejoin the server. Arma is being Arma...";pictureBackground="";picture="";pictureColor[]={0,0.3,0.6,1};};};class CfgNotifications{class MedicalRequestEmerg{title="EMS Requested";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcon_ca.paa";description="%1";duration=5;priority=7;};class Achievement {title="New Achievement";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcondone_ca.paa";description="%1";duration=6;priority=6;};class BountyUpdate{title="Bounty Update";iconPicture="icons\police.paa";description="%1";duration=5;priority=7;};class BankRobbery{title="Bank Robbery";iconPicture="icons\drill.paa";description="%1";duration=8;priority=7;color[]={1.0,0.35,0.2,1.0};};class DeliveryAssigned{title="Delivery Job Accepted";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcon_ca.paa";description="%1";duration=10;priority=7;};class DeliveryFailed{title="Delivery Job Failed";iconPicture="\A3\ui_f\data\map\mapcontrol\taskiconfailed_ca.paa";description="%1";duration=7;priority=7;};class DeliverySucceeded{title="Delivery Job Completed";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcondone_ca.paa";description="%1";duration=6;priority=6;};class StatGain{title="Stat Gain";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIconDone_ca.paa";description="%1";duration=6;priority=6;color[]={0.7,1.0,0.3,1.0};sound="taskSucceeded";};class StatLoss{title="Stat Loss";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIconFailed_ca.paa";description="%1";duration=6;priority=6;color[]={1.0,0.3,0.2,1.0};sound="taskFailed";};class AllPointsBulletin{title="All Points Bulletin";iconPicture="icons\APB.paa";description="%1";duration=10;priority=6;};class gangFortressAlert{title="Gang Fortress Alert";iconPicture="a3\Ui_f\data\GUI\Cfg\CommunicationMenu\attack_ca.paa";description="%1";duration=5;priority=6;};class cartelEventAlert{title="Cartel Event Alert";iconPicture="a3\Ui_f\data\GUI\Cfg\CommunicationMenu\attack_ca.paa";description="%1";duration=5;priority=6;};class warKill{title="WAR KILL CONFIRMED";iconPicture="a3\Ui_f\data\GUI\Cfg\CommunicationMenu\attack_ca.paa";description="%1";color[]={0.7,1.0,0.3,1.0};duration=6;priority=6;};class warDeath{title="KILLED BY WARRING GANG";iconPicture="a3\Ui_f\data\GUI\Cfg\CommunicationMenu\attack_ca.paa";description="%1";color[]={1.0,0.3,0.2,1.0};duration=6;priority=6;};class GovMessage{title="Governor Message";iconPicture="icons\govern.paa";description="%1";duration=10;priority=5;};class timeTrial{title="Time Trial";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcon_ca.paa";description="%1";duration=2;priority=7;};class timeTrialFast{title="Time Trial";iconPicture="\A3\ui_f\data\map\mapcontrol\taskIcon_ca.paa";description="%1";duration=1;priority=7;};};
+class CfgVehicles{
+#include"cfgVehicles.hpp"
+};

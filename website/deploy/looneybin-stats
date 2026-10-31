@@ -1,0 +1,30 @@
+#!/sbin/openrc-run
+# OpenRC service for the LooneyBin stats website (Next.js production server).
+# Points at a no-args wrapper at a space-free path (the project path has spaces,
+# which breaks supervise-daemon command parsing -> "(null) does not exist").
+# Install: copy to /etc/init.d/looneybin-stats, chmod +x, then
+#   rc-update add looneybin-stats default && rc-service looneybin-stats start
+
+name="looneybin-stats"
+description="LooneyBin stats website (Next.js)"
+supervisor="supervise-daemon"
+
+command="/usr/local/bin/looneybin-stats-run"
+command_user="timb:timb"
+pidfile="/run/looneybin-stats.pid"
+respawn_delay=5
+respawn_max=0          # 0 = respawn forever
+output_log="/var/log/looneybin/stats.log"
+error_log="/var/log/looneybin/stats.log"
+
+depend() {
+    need net
+    after mysql
+}
+
+# /var/log is root-owned, but supervise-daemon opens the log AS command_user
+# (timb) -> it can't create a file there and dies before exec (silent "stopped").
+# Give it a timb-owned dir to write into, same as the loonybot service.
+start_pre() {
+    checkpath -d -m 0755 -o timb:timb /var/log/looneybin
+}

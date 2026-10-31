@@ -1,0 +1,80 @@
+*.pbo
+*.log
+*.swp
+.DS_Store
+*.bak
+*.bak-*
+*.DAMAGED.bak
+__pycache__/
+*.pyc
+venv/
+.venv/
+*-venv/
+
+# --- secrets + runtime state: live creds/state stay LOCAL, use the .example/.template files ---
+loonybot/*config.json
+!loonybot/config.example.json
+loonybot/clankr_state.json
+loonybot/*.ranknicks.json
+server/extdb3-conf.ini
+deploy/secrets.env
+!deploy/secrets.example.env
+deploy/.rotate_db_pw
+beserver.cfg
+beserver_x64.cfg
+deploy/battleye/beserver.cfg
+deploy/battleye/beserver_x64.cfg
+*.biprivatekey
+*.token
+*.pem
+
+# --- backups / archives (large, regenerable) ---
+deploy/asset_backups/
+deploy/db_backups/
+deploy/pbo_backups/
+*.tar.gz
+
+# --- large binary assets / generated tool data (3GB+; keep the repo lean) ---
+vehicle_skins_png/
+asy-strip-tool/
+
+# --- deploy runtime flags ---
+deploy/.repack_on_restart
+deploy/.deploy_freeze
+
+# --- removed content: kept out of the repo (owner 2026-06-25) ---
+docs/
+reference/
+legal.md
+mentalasylum.md
+asy-donor-crate-removal.md
+REBRAND-TODO.md
+asylum-suggestions-scrape/
+deploy/patchnote_override.txt
+
+# --- sync cruft (2026-07-14 full on-box reconcile): backups / runtime state / deploy flags, all regenerable ---
+*.bak_*
+*.pre-sync-bak
+/.repack_on_restart
+deploy/.*_done
+loonybot/*_state.json
+loonybot/*.out
+arma_textures/
+*.bak2
+# Eden round-trip tooling staged into the mission dir (symlinked editor; never ship/commit)
+mission/LooneyBin.Altis/mapImportAll.sqf
+mission/LooneyBin.Altis/mapExportAll.sqf
+mission/LooneyBin.Altis/mapImportAll_data.sqf
+mission/LooneyBin.Altis/compExport.sqf
+mission/LooneyBin.Altis/compImport.sqf
+mission/LooneyBin.Altis/edenImport.sqf
+mission/LooneyBin.Altis/edenExport.sqf
+mission/LooneyBin.Altis/edenImport_data.sqf
+tools/.mapdata_all_count
+mission/LooneyBin.Altis/core/config/fn_mapData.sqf.bak
+
+# session/tooling artifacts -- never commit
+skill-observations/
+scratchpad/skill-observations/
+scratchpad/newyork_redist_*/
+deploy/.nd_migrated

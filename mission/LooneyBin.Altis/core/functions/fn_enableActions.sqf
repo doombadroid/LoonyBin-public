@@ -1,0 +1,12 @@
+if (life_scrollDisabled) exitWith {};
+if (player getVariable["plb_restrained", false] || (isWeaponDeployed player)) exitWith {};
+if (life_show_actions) exitWith {};
+life_show_actions = true;
+[] spawn life_fnc_setupActions;
+life_action_time = time + 7;
+waitUntil {uiSleep 0.25;
+    life_action_time < time};
+private _obj_main = player;
+removeAllActions _obj_main;
+life_actions = [];
+life_show_actions = false;

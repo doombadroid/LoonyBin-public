@@ -1,0 +1,56 @@
+/*
+    LooneyBin: client.fsm rebuilt by hand. The deobfuscated source shipped each state's `init`
+    as a SHREDDED string (every embedded "" split into separate adjacent "..." config tokens),
+    which the engine rejected at line 6 ('"' encountered instead of '='). FSM `init`/`condition`
+    must each be a SINGLE quoted string (embedded quotes doubled "" ). Logic preserved verbatim
+    from the damaged file: a paycheck timer loop (Main_Init -> Split -> Pay_me_ -> Split).
+*/
+class FSM {
+    fsmName = "Life Client FSM";
+    class States {
+        class Main_Init {
+            name = "Main_Init";
+            init = "private[""_lastcheck"",""_food"",""_water"",""_lastsync""]; _lastcheck = time; _food = time; _water = time; _lastsync = time;";
+            precondition = "";
+            class Links {
+                class true {
+                    priority = 0.000000;
+                    to = "Split";
+                    precondition = "";
+                    condition = "true";
+                    action = "";
+                };
+            };
+        };
+        class Split {
+            name = "Split";
+            init = "systemChat format[""You will receive your next paycheck in %1 minutes"",(call life_paycheck_period)];";
+            precondition = "";
+            class Links {
+                class Time_to_pay_ {
+                    priority = 0.000000;
+                    to = "Pay_me_";
+                    precondition = "";
+                    condition = "(time - _lastcheck) > ((call life_paycheck_period) * 60)";
+                    action = "";
+                };
+            };
+        };
+        class Pay_me_ {
+            name = "Pay_me_";
+            init = "if (!alive player) then { systemChat ""You have missed a paycheck because you were dead.""; } else { private _pay = call life_paycheck; if ((call life_adminLevel) >= 2) then { _pay = 10000 max _pay; }; if (player distance (getMarkerPos ""fed_reserve"") < 120 && playerSide isEqualTo west) then { _pay = _pay + 1500; }; life_atmcash = life_atmcash + _pay; life_atmcashCacheB = ((life_atmcash / 4) + 11); systemChat format[""You have received a paycheck of $%1"",[_pay] call life_fnc_numberText]; if (playerSide isEqualTo west && {!(life_coprole isEqualTo """")} && {!isNil ""life_prestige""} && {life_session_completed}) then { private _pp = round ((7500 / 60) * (call life_paycheck_period)); life_prestige = life_prestige + _pp; [16] call life_fnc_ClupdatePartial; systemChat format[""On-duty bonus: +%1 cop prestige."", _pp]; }; }; _lastcheck = time;";
+            precondition = "";
+            class Links {
+                class true {
+                    priority = 0.000000;
+                    to = "Split";
+                    precondition = "";
+                    condition = "";
+                    action = "";
+                };
+            };
+        };
+    };
+    initState = "Main_Init";
+    finalStates[] = {};
+};

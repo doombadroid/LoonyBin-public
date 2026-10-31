@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* ---- themeable accent palette (switched at runtime via [data-theme]) ---- */
+@theme inline {
+  --color-th-50: var(--th-50);
+  --color-th-100: var(--th-100);
+  --color-th-200: var(--th-200);
+  --color-th-300: var(--th-300);
+  --color-th-400: var(--th-400);
+  --color-th-500: var(--th-500);
+  --color-th-600: var(--th-600);
+  --color-th-700: var(--th-700);
+  --color-th-800: var(--th-800);
+  --color-th-900: var(--th-900);
+  --color-th-950: var(--th-950);
+}
+
+/* default theme = amber */
+:root,
+[data-theme="amber"] {
+  --th-50: #fffbeb; --th-100: #fef3c7; --th-200: #fde68a; --th-300: #fcd34d;
+  --th-400: #fbbf24; --th-500: #f59e0b; --th-600: #d97706; --th-700: #b45309;
+  --th-800: #92400e; --th-900: #78350f; --th-950: #451a03;
+}
+[data-theme="blue"] {
+  --th-50: #eff6ff; --th-100: #dbeafe; --th-200: #bfdbfe; --th-300: #93c5fd;
+  --th-400: #60a5fa; --th-500: #3b82f6; --th-600: #2563eb; --th-700: #1d4ed8;
+  --th-800: #1e40af; --th-900: #1e3a8a; --th-950: #172554;
+}
+[data-theme="emerald"] {
+  --th-50: #ecfdf5; --th-100: #d1fae5; --th-200: #a7f3d0; --th-300: #6ee7b7;
+  --th-400: #34d399; --th-500: #10b981; --th-600: #059669; --th-700: #047857;
+  --th-800: #065f46; --th-900: #064e3b; --th-950: #022c22;
+}
+[data-theme="rose"] {
+  --th-50: #fff1f2; --th-100: #ffe4e6; --th-200: #fecdd3; --th-300: #fda4af;
+  --th-400: #fb7185; --th-500: #f43f5e; --th-600: #e11d48; --th-700: #be123c;
+  --th-800: #9f1239; --th-900: #881337; --th-950: #4c0519;
+}
+[data-theme="violet"] {
+  --th-50: #f5f3ff; --th-100: #ede9fe; --th-200: #ddd6fe; --th-300: #c4b5fd;
+  --th-400: #a78bfa; --th-500: #8b5cf6; --th-600: #7c3aed; --th-700: #6d28d9;
+  --th-800: #5b21b6; --th-900: #4c1d95; --th-950: #2e1065;
+}
+
+html { color-scheme: dark; }
+body {
+  background: #030712;
+  color: #f3f4f6;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* thin dark scrollbars */
+* { scrollbar-width: thin; scrollbar-color: #374151 transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+
+.brand-font {
+  font-family: Impact, "Bebas Neue", Arial, sans-serif;
+  letter-spacing: 1px;
+}
+
+/* keyboard focus — visible ring in the active accent (product a11y) */
+:focus-visible {
+  outline: 2px solid var(--th-500);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* honor reduced-motion: drawer/collapse transitions become instant */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

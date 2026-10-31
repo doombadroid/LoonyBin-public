@@ -1,0 +1,6 @@
+params["_obj_main", "_stance"];
+if (_obj_main isKindOf "CAManBase") then {};
+_obj_main addAction["Fortress Drug Dealer", life_fnc_virtualShopMenu, "heroin", 1.5, false, false, "", 'playerSide isEqualTo civilian && isNull objectParent player && (life_gang_data isNotEqualTo []) && (!((gang_fortress_flag getVariable ["plb_gang_fortress_data", [-1, "Unknown", false]]) param [2, false]) && ((gang_fortress_flag getVariable ["plb_gang_fortress_data", [-1, "Unknown", false]]) param [0, -1]) isEqualTo (life_gang_data param [0, -1]))
+', 5];
+_obj_main addAction["Fortress Wong's Food Court", life_fnc_virtualShopMenu, "wongs", 1.5, false, false, "", 'playerSide isEqualTo civilian && isNull objectParent player && (life_gang_data isNotEqualTo []) && (!((gang_fortress_flag getVariable ["plb_gang_fortress_data", [-1, "Unknown", false]]) param [2, false]) && ((gang_fortress_flag getVariable ["plb_gang_fortress_data", [-1, "Unknown", false]]) param [0, -1]) isEqualTo (life_gang_data param [0, -1]))
+', 5];

@@ -1,0 +1,12 @@
+class commands {class e {code = "[player, _this select 0] call life_fnc_emote";};
+    class f {code = "[player, _this select 0] call life_fnc_face";};
+    class t {code = "[player, 'text', _this select 0, (_this select [1, count _this])] call life_fnc_filterChat";};
+    class r {code = "[player, 'reply', '', (_this select [0, count _this])] call life_fnc_filterChat";};
+    class 911 {code = "[player, '911', '', (_this select [0, count _this])] call life_fnc_filterChat";};
+    class comp {code = "[] call life_fnc_checkMailbox";};
+    class stats {code = "[false] spawn life_fnc_getMyStats";};
+    class loginbonus {code = "[] spawn life_fnc_loginBonusInit";};
+    class gangfortscore {code = "['drawHud'] spawn life_fnc_initGangFortClient";};
+    class gangboatscore {code = "['drawHud'] spawn life_fnc_initGangBoatClient";};
+    class spray {code = "['sprayMenu'] call life_fnc_createDialog;";};
+    class 311 {code = "[player, '311', '', (_this select [0, count _this])] call life_fnc_filterChat";};};

@@ -1,0 +1,98 @@
+params[["_mode", "", [""]]];
+switch (_mode) do {case "initWelcomeUI": {disableSerialization;
+            if (!isNull(findDisplay 17000)) exitWith {};
+            createDialog "life_welcomeUI";
+            waitUntil {sleep 0.1;
+                !isNull(findDisplay 17000)};
+            private _plb_display = findDisplay 17000;
+            if (isNil "_plb_display" || {isNull _plb_display}) exitWith {};
+            _plb_display displaySetEventHandler["keyDown", "_this call life_fnc_displayHandler"];
+            private _playButton = _plb_display displayCtrl 17001;
+            private _exitButton = _plb_display displayCtrl 17002;
+            private _loadingScreenIcon = _plb_display displayCtrl 17100;
+            private _bottomWelcomeText = _plb_display displayCtrl 17003;
+            private _bottomLoadText = _plb_display displayCtrl 17300;
+            private _treeList = _plb_display displayCtrl 17500;
+            private _treeCenterText = _plb_display displayCtrl 17501;
+            _playButton ctrlEnable false;
+            _exitButton ctrlEnable false;
+            _loadingScreenIcon ctrlSetText "A3\Missions_F_Exp\data\Img\lobby\ui_campaign_lobby_background_tablet_radial_left_ca.paa";
+            _bottomLoadText ctrlSetStructuredText parseText(format["<t size='1' align='center'>Loading...</t>"]);
+            private _bottomWelcomeTextPos = ctrlPosition _bottomWelcomeText;
+            private _bottomLoadTextPos = ctrlPosition _bottomLoadText;
+            _bottomWelcomeText ctrlSetPosition[_bottomWelcomeTextPos select 0, (_bottomWelcomeTextPos select 1) + 0.1];
+            _bottomWelcomeText ctrlSetFade 1;
+            _bottomWelcomeText ctrlCommit 0;
+            _treeCenterText setVariable["wui_min_height", (ctrlPosition _treeCenterText) select 3];
+            ["init", _treeList] call life_fnc_welcomeUIConfig;
+            _exitButton buttonSetAction "(findDisplay 46) closeDisplay 0; true";
+            private _angle = 0;
+            private _currentText = "";
+            private _loadingTime = time + 30;
+            while {life_loadingScreenStatus isNotEqualTo "Finishing Client Setup..."}
+            do {if (_angle > 359) then {_angle = 0};
+                _loadingScreenIcon ctrlSetAngle[_angle, 0.5, 0.5];
+                _angle = _angle + 1;
+                if (_loadingTime < time) then {life_loadingScreenStatus = "Loading takes longer than usual...";
+                    _exitButton ctrlEnable true;};
+                if (_currentText != life_loadingScreenStatus) then {_currentText = life_loadingScreenStatus;
+                    _loadingTime = time + 30;
+                    _bottomLoadText ctrlSetStructuredText parseText(format["<t size='1' align='center'>%1</t>", life_loadingScreenStatus]);
+                };
+                uiSleep 0.00055;}; waitUntil {uiSleep 0.1;
+                (life_loadingScreenStatus isEqualTo "Finishing Client Setup...")};
+            uiSleep 0.5;
+            _loadingScreenIcon ctrlSetAngle[0, 0, 0];
+            _loadingScreenIcon ctrlSetText "icons\checkmark.paa";
+            _loadingScreenIconPos = ctrlPosition _loadingScreenIcon;
+            _loadingScreenIcon ctrlSetPosition[(_loadingScreenIconPos select 0) + 0.3, _loadingScreenIconPos select 1];
+            _loadingScreenIcon ctrlSetFade 1;
+            _loadingScreenIcon ctrlCommit 1;
+            private _nameText = profileName;
+            private _textColor = "#ffffff";
+            private _iconString = "";
+            private _copLevel = call life_copLevel;
+            private _medicLevel = call life_medicLevel;
+            private _adminLevel = call life_adminLevel;
+            if (_adminLevel > 1) then {switch (_adminLevel) do {case 2: {_textColor = "#19ba00";
+                            _nameText = format["Moderator %1", _nameText]};
+                    case 3: {_textColor = "#b80202";
+                            _nameText = format["Admin %1", _nameText]};
+                    case 4: {_textColor = "#0241ed";
+                            _nameText = format["Developer %1", _nameText]};
+                    case 5: {_textColor = "#870080";
+                            _nameText = format["Owner %1", _nameText]};
+                    default {_nameText};};};
+            if (playerSide isEqualTo west) then {
+                private _iconPath = ["", "\A3\Ui_f\data\GUI\Cfg\Ranks\private_gs.paa", MISSION_ROOT + "icons\pfc_gs.paa", "\A3\Ui_f\data\GUI\Cfg\Ranks\corporal_gs.paa", "\A3\Ui_f\data\GUI\Cfg\Ranks\sergeant_gs.paa", "\A3\Ui_f\data\GUI\Cfg\Ranks\lieutenant_gs.paa", "\A3\Ui_f\data\GUI\Cfg\Ranks\captain_gs.paa", "\A3\Ui_f\data\GUI\Cfg\Ranks\colonel_gs.paa"] select _copLevel;
+                _iconString = format["<img image='%1' size='1'></img> ", _iconPath];};
+            if (playerSide isEqualTo independent) then {
+                // owner 2026-06-27 HOTFIX: this 7-element array (idx 0-6) crashed for the NG ranks the rework added --
+                // level 7 (Marshal, what the newbie auto-grant gives everyone) AND the 99 EMT Volunteer sentinel both
+                // ran off the end (select 7 / select 99 = out-of-range -> every NG player errored on the welcome UI).
+                // Clamp: 99 -> tier-1 icon, anything >6 -> the chief icon, floor 0.
+                private _iconPath = ["", "icons\med_emr.paa", "icons\med_emt.paa", "icons\med_advemt.paa", "icons\med_paramedic.paa", "icons\med_asstchief.paa", "icons\med_chief.paa"] select (if (_medicLevel isEqualTo 99) then {1} else {_medicLevel min 6 max 0});
+                _iconString = format["<img image='%1' size='1'></img> ", _iconPath];};
+            _bottomWelcomeText ctrlSetStructuredText parseText(format["<t size='1' align='center'>Welcome back %2<t color='%3'>%1</t></t>!", _nameText, _iconString, _textColor]);
+            _bottomLoadText ctrlSetPosition[_bottomLoadTextPos select 0, (_bottomLoadTextPos select 1) - 0.05];
+            _bottomLoadText ctrlSetFade 1;
+            _bottomLoadText ctrlCommit 0.5;
+            _bottomWelcomeText ctrlSetPosition _bottomWelcomeTextPos;
+            _bottomWelcomeText ctrlSetFade 0;
+            _bottomWelcomeText ctrlCommit 0.5;
+            _playButton buttonSetAction "life_quitWelcomeUI = true;";
+            _playButton ctrlEnable true;
+            _exitButton ctrlEnable true;
+            ctrlSetFocus _playButton;
+            if (random 10 < 1) then {switch (getPlayerUID player) do {case "": {playSound "leeroy";}; case "": {playSound "iLoveLoonyBin";
+                            };
+                        default {if (A_stats_civTime > 4500 && {random 10 < 1}) then {
+                                playSound(selectRandom["tspoke", "oofhorn", "discordping"]);};};};};
+            waitUntil {uiSleep 0.05;
+                life_quitWelcomeUI};
+            if (!isNull _plb_display) then {_playButton ctrlEnable false;
+                _exitButton ctrlEnable false;
+                _bottomWelcomeText ctrlSetStructuredText parseText "<t size='1' align='center'>Spawning in... </t>";};
+        }; case "waitForPlay": {waitUntil {uiSleep 0.1;
+                        isNull(findDisplay 17000) || life_quitWelcomeUI;};};
+        default {};};

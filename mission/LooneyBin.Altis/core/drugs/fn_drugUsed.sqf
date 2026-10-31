@@ -1,0 +1,21 @@
+params[["_item", "", [""]]];
+if (_item isEqualTo "") exitWith {};
+["use", _item, 1] spawn life_fnc_handleQuest; (switch _item do {case "cannabis": {[0, 0.03]}; case "cocainep": {[1, 0.1]};
+        case "heroinp": {[2, 0.1]};
+        case "meth": {[3, 0.3]};
+        case "crank": {[4, 0.5]};
+        case "lsd": {[1, 0.15]};
+        default {[-1, 0]};}) params["_index", "_addInc"];
+private _add = life_addiction select _index;
+if (_add > 0.9) then {life_drug_withdrawl = false};
+life_addiction set[_index, selectMin[_add + _addInc, 1]];
+life_used_drug set[_index, time];
+if (life_drug_level > 0.9) then {private _overdose = random 1;
+    if (_overdose > 0.6) then {[] spawn life_fnc_overdose;
+        while {dialog}
+        do {closeDialog 0};};}; (switch playerSide do {case civilian: {["plb_addictionCiv", "plb_drugsUsedCiv"]};
+    case west: {["plb_addictionCop", "plb_drugsUsedCop"]};
+    case independent: {["plb_addictionMedic", "plb_drugsUsedMedic"]};
+    default {["", ""]};}) params["_addictionVariable", "_drugsUsedVariable"];
+if !(_addictionVariable isEqualTo "") then {profileNamespace setVariable[_addictionVariable, life_addiction];
+    profileNamespace setVariable[_drugsUsedVariable, life_used_drug];};
